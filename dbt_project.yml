@@ -1,0 +1,75 @@
+
+# Name your package! Package names should contain only lowercase characters
+# and underscores. A good package name should reflect your organization's
+# name or the intended use of these models
+name: 'yandeh'
+version: '1.0'
+
+# This setting configures which "profile" dbt uses for this project. Profiles contain
+# database connection information, and should be configured in the  ~/.dbt/profiles.yml file
+profile: 'default'
+
+# These configurations specify where dbt should look for different types of files.
+# The `source-paths` config, for example, states that source models can be found
+# in the "models/" directory. You probably won't need to change these!
+source-paths: ["models"]
+analysis-paths: ["analysis"] 
+test-paths: ["tests"]
+data-paths: ["data"]
+macro-paths: ["macros"]
+
+target-path: "target"  # directory which will store compiled SQL files
+clean-targets:         # directories to be removed by `dbt clean`
+    - "target"
+    - "dbt_modules"
+
+# You can define configurations for models in the `source-paths` directory here.
+# Using these configurations, you can enable or disable models, change how they
+# are materialized, and more!
+
+# In this example config, we tell dbt to build all models in the example/ directory
+# as views (the default). These settings can be overridden in the individual model files
+# using the `{{ config(...) }}` macro.
+models:
+  yandeh:
+      # Applies to all files under models/example/
+      il:
+        materialized: table 
+        base:
+            materialized: table
+            #materialized: ephemeral           
+        
+
+on-run-end:
+  - 'DROP TABLE IF EXISTS public.temp_base_sellout2'
+  - 'DROP TABLE IF EXISTS public.temp_base_sellout_linha'
+  - 'DROP TABLE IF EXISTS public.temp_base_sellout_similar'
+  - 'DROP TABLE IF EXISTS public.temp_categoria'
+  - 'DROP TABLE IF EXISTS public.temp_cont_mediana'
+  - 'DROP TABLE IF EXISTS public.temp_cont_mediana_linha'
+  - 'DROP TABLE IF EXISTS public.temp_cont_mediana_similar'
+  - 'DROP TABLE IF EXISTS public.temp_mediana'
+  - 'DROP TABLE IF EXISTS public.temp_mediana_linha'
+  - 'DROP TABLE IF EXISTS public.temp_mediana_loja_linha'
+  - 'DROP TABLE IF EXISTS public.temp_mediana_loja_similar'
+  - 'DROP TABLE IF EXISTS public.temp_mediana_loja_sku'
+  - 'DROP TABLE IF EXISTS public.temp_mediana_similar'
+  - 'DROP TABLE IF EXISTS public.temp_moda'
+  - 'DROP TABLE IF EXISTS public.temp_moda_linha'
+  - 'DROP TABLE IF EXISTS public.temp_moda_similar'
+  - 'DROP TABLE IF EXISTS public.temp_moda_sku'
+  - 'DROP TABLE IF EXISTS public.temp_segmentos'
+  - 'DROP TABLE IF EXISTS public.temp_subcat'
+  - 'DROP TABLE IF EXISTS public.temp_venda_media_diaria_u30d'
+
+
+#seeds:
+#  yandeh:
+#    enabled: true
+#    schema: public
+    # This configures data/country_codes.csv
+#    dl_cadastro_calendario:
+#      schema: "pub"
+#    dl_data_limite:
+#    dl_datalake_cadastro_cfop:
+#    gcat_papel_pesos_importancia:
